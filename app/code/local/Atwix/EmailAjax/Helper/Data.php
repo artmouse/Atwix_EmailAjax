@@ -19,21 +19,33 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Atwix_EmailAjax_AddressController extends Mage_Core_Controller_Front_Action
+class Atwix_EmailAjax_Helper_Data extends Mage_Core_Helper_Data
+
 {
 
     /**
      * Check if customer email already exists
      *
+     * @param $emailAddress
+     * @return string
+     * @throws Mage_Core_Exception
      */
 
-    public function checkEmailExistsAction()
+    public function checkEmailExists($emailAddress)
     {
-        $emailAddress = $this->getRequest()->getParam('emailAddress');
+        $emailAddressCheck = Mage::getModel('customer/customer')
+            ->getCollection()
+            ->addAttributeToSelect('email')
+            ->addAttributeToFilter('email', $emailAddress)->load();
 
-        $result = Mage::helper('atwix_emailajax')->checkEmailExists($emailAddress);
+        if(!$emailAddressCheck->getSize()) {
+            $result = 'ok';
+        } else {
+            $result = 'error';
+        }
 
-        $this->getResponse()->setBody($result);
+        return $result;
     }
+
 
 }

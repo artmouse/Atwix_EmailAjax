@@ -25,6 +25,13 @@
             <version>0.1.0</version>
         </Atwix_EmailAjax>
     </modules>
+    <global>
+        <helpers>
+            <atwix_emailajax>
+                <class>Atwix_EmailAjax_Helper</class>
+            </atwix_emailajax>
+        </helpers>
+    </global>
     <frontend>
         <layout>
             <updates>
